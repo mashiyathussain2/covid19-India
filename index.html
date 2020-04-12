@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GO CORONA GO</title>
+</head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
+ <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <!--<h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>-->
+  </header>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <div class="w3-row-padding w3-margin-bottom strip1">
+    <div class="w3-quarter strip2">
+      <div class="w3-container w3-white w3-text-black w3-padding-10">
+        <div class="w3-left"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/800px-Flag_of_India.svg.png" width="100px" height="50px"><!--<i class="fa fa-comment w3-xxxlarge"></i>--></div>
+        <div class="w3-right">
+          <h3 class="india">INDIA</h3>
+        </div>
+        <div class="w3-clear"></div>
+        <h4 id="country" class="india">Country</h4>
+      </div>
+    </div>
+    <div class="w3-quarter">
+      <div class="w3-container w3-white w3-text-black w3-padding-10">
+        <div class="w3-left"><!--<i class="fa fa-eye w3-xxxlarge">--></i></div>
+        <div class="w3-right">
+          <h3 id="cases" class="cases"></h3>
+            <h4 class="india2">Confirmed<br>Cases<i class="fas fa-arrow-up fa-xs"></i></h4>
+        </div>
+        <div class="w3-clear"></div>
+       
+      </div>
+    </div>
+    <div class="w3-quarter">
+      <div class="w3-container w3-white w3-text-black w3-padding-10">
+        <div class="w3-left"><!--<i class="fa fa-share-alt w3-xxxlarge">--></i></div>
+        <div class="w3-right">
+          <h3 id="deaths" class="cases"></h3>
+           <h4 class="india2"> Total Deaths</h4>
+        </div>
+        <div class="w3-clear"></div>
+       
+      </div>
+    </div>
+    <div class="w3-quarter">
+      <div class="w3-container w3-white w3-text-black w3-padding-10">
+        <div class="w3-left"><!--<i class="fa fa-users w3-xxxlarge">--></i></div>
+        <div class="w3-right">
+          <h3 id="percent" class="cases"></h3>
+           <h4 class="india2">% of Deaths</h4>
+        </div>
+        <div class="w3-clear"></div>
+       
+      </div>
+      <p class="made">Made by <a  class="made" href="https://www.instagram.com/mashiyathussain4shamid/">@mashiyathussain</a></p>
+    </div>
+  </div>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<style>
+.made{
+  color: grey !important;
+}
+.india2{
+  font-size: 25px;
+  font-weight: bold;
+  color: black !important;
+}
+.fas {
+ color: red !important;
+}
+.india{
+  font-size: 30px;
+  font-weight: bold;
+  color: black !important;
+}
+.cases{
+  font-size: 30px;
+  font-weight: bold;
+  color: red;
+}
+.w3-container{
+border-radius: 10px;
+}
+</style>
+
+<body>
+	<!--<div class="data-container">-->
+		<div class="stats-container">
+			
+		</div>
+			<h1 id="update"></h1>
+		</div>
+	</div>
+</body>
+</html>
+<script>
+window.onload = function() {
+	getCovidStats();
+}
+
+function getCovidStats() {
+	fetch('https://coronavirus-tracker-api.herokuapp.com/v2/locations/131')
+	.then(function(resp) { return resp.json() })
+	.then(function(data) {
+		let population = data.location.country_population;
+		//let update = data.location.last_updated;
+		let confirmedCases = data.location.latest.confirmed;
+		let deaths = data.location.latest.deaths;
+
+		//document.getElementById('population').innerHTML = population.toLocaleString('en');
+		//document.getElementById('update').innerHTML = update.substr(0, 10);
+		document.getElementById('cases').innerHTML = confirmedCases.toLocaleString('en');
+		document.getElementById('deaths').innerHTML = deaths.toLocaleString('en');
+		document.getElementById('percent').innerHTML = ((Number(deaths)/Number(confirmedCases))*100).toLocaleString("en", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "%";
+
+
+
+
+	})
+	.catch(function() {
+		console.log("error");
+	})
+	setTimeout(getCovidStats, 43200) // update every 12 hours
+}
+</script>
+<style>
+	* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	height: 100%;
+	width: 100%;
+}
+h1, h2 {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	text-align: center;
+	padding-bottom: 20px;
+	font-size: 250%;
+}
+
+.title {
+	background: linear-gradient(to right, #feb47b, #ff7e5f);
+	padding: 20px;
+}
+
+.subtitle {
+	padding: 20px;
+	font-size: 150%;
+}
+
+div {
+	padding: 20px;
+}
+
+.stats-container {
+	text-align: center;
+	float: right;
+	display: inline-block;
+}
+.location-container {
+	display: inline-block;
+}
+.data-container {
+	border: 2px solid #feb47b;
+	margin-right: 30%;
+	margin-left: 30%;
+
+}
+h4 {
+	font-size: 85%;
+ 	color: gray;
+ 	font-family: 'Roboto', sans-serif;
+ 	font-weight: 300;
+ 	text-align: center;
+ 	padding-top: 20px;
+ 	padding-left: 20px;
+ 	padding-right: 20px;
+ 	padding-bottom: 5px;
+}
+.prevention{
+  font-weight: bold;
+  color: black !important;
+}
+.stop{
+  font-weight: bold;
+  text-align: center;
+}
+</style>
+<div class="container strip2"><iframe src="https://ourworldindata.org/grapher/full-list-cumulative-total-tests-per-thousand?tab=map&year=81" style="width: 100%; height: 600px; border: 0px none;"></iframe></div><br><br>
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="container strip2">
+  <h1 class="prevention">Prevention</h1>
+  <h1 class="prevention">STAY HOME.SAVE LIVES.</h1><br>
+  <img src="data:image/gif;base64,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" class="center1"><br>
+  <h3 class="stop">Help stop coronavirus</h3><br>
+  <center><h3 class="stay">1. STAY Home</h3><lottie-player
+    src="https://assets9.lottiefiles.com/packages/lf20_81B2c1.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay >
+</lottie-player></center><br>
+  <center><h3 class="stay">2. KEEP a safe distance.</h3><lottie-player
+    src="https://assets9.lottiefiles.com/private_files/lf30_UChCq9.json" background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay >
+</lottie-player></center><br>
+  <center><h3 class="stay">3. WASH hands often.</h3><lottie-player
+    src="https://assets6.lottiefiles.com/private_files/lf30_kLBIzB.json" background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay >
+</lottie-player></center><br>
+  <center><h3 class="stay">4. COVER your cough.</h3><lottie-player
+    src="https://assets9.lottiefiles.com/private_files/lf30_oGbdoA.json" background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay >
+</lottie-player></center><br>
+  <center><h3 class="stay">5. SICK? Call the helpline</h3><lottie-player
+    src="https://assets9.lottiefiles.com/packages/lf20_wdXBRc.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay >
+</lottie-player></center><br>
+<p class="prevention2">Prevention tips</p>
+<p class="prevention2">Ministry of Health and Family Welfare</p>
+<a class="btn btn-primary" href="https://www.mohfw.gov.in/pdf/ProtectivemeasuresEng.pdf" role="button">More Info</a>
+</div>
+
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+
+<style>
+
+.prevention2{
+  color: grey !important;
+}
+.loti{
+  margin-left: 37%;
+  margin-top: -2%;
+}
+.stay{
+  font-weight: bold;
+  text-align: center;
+  color: black !important;
+}
+.center1 {
+  margin-left: 41%;
+}
+.rightpic{
+	right: 50%;
+}
+.tweet{
+	font-size: 30px;
+  font-weight: bold;
+}
+</style>
+<div class="container">
+	<p class="tweet">Latest Tweet</p>
+
+ <div class="row">
+    <div class="col-sm-12 strip">
+       <img src="https://pbs.twimg.com/profile_images/826806758513446913/2__zaKJN_400x400.jpg" alt="profile image" width="100px" />
+      <strong>Press Trust of India</strong> <span class="light"> @PTI_News - <span class="time">5:49 PM · Apr 12, 2020</span></span><br>
+      Tremors felt in national capital.
+      <a href="https://twitter.com/PTI_News/status/1249311237571108865?s=20">Read Tweet</a>
+      
+      <div class="summary">
+        <!--<a href="/summary"><i class="fa fa-ellipsis-h"></i>More</a>-->
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+    <div class="col-sm-12 strip">
+     <img src="https://pbs.twimg.com/profile_images/945853608389574656/REH_LpUJ_400x400.jpg" alt="profile image" width="100px" />
+      <strong>Arvind Kejriwal</strong> <span class="light">@ArvindKejriwal - <span class="time">6:03 PM · Apr 12, 2020</span></span><br>
+      Tremors felt in Delhi. Hope everyone is safe. I pray for the safety of each one of you.
+      <a href="https://twitter.com/ArvindKejriwal/status/1249314740469256194?s=20">Read Tweet</a>
+      
+      <div class="summary">
+        <!--<a href="/summary"><i class="fa fa-ellipsis-h"></i>More</a>-->
+      </div>
+    </div>
+  </div>
+ <div class="row">
+    <div class="col-sm-12 strip">
+       <img src="https://pbs.twimg.com/profile_images/1042399192793006080/YYeMRNNJ_400x400.jpg" alt="profile image" width="100px" />
+      <strong>The Telegraph</strong> <span class="light"> @ttindia - <span class="time">3:02 PM · Apr 12, 2020</span></span><br>
+      The president was warned about the potential for a pandemic but internal divisions, lack of planning and his faith in his own instincts led to a halting response.
+      <a href="https://twitter.com/ttindia/status/1249269023923109890">Read Tweet</a>
+      
+      <div class="summary">
+        <!--<a href="/summary"><i class="fa fa-ellipsis-h"></i>More</a>-->
+      </div>
+    </div>
+  </div>
+
+  
+
+ 
+  <div class="row">
+    <div class="col-sm-12 strip">
+       <img src="https://pbs.twimg.com/profile_images/570440108424171520/QuGYd7jH_400x400.png" alt="profile image" width="100px" />
+      <strong>NDTV</strong> <span class="light"> @ndtv - <span class="time"></span></span><br>
+ #IndiaAgainstCOVID19 | Kerala has set an example for rest of the country by adopting aggressive measures even before #coronaviruslockdown. 
+<a href="https://twitter.com/hashtag/ApniSurakshaApneHaath?src=hashtag_click">#ApniSurakshaApneHaath</a> <a href="https://twitter.com/DettolIndia">@DettolIndia.</a> 
+<a href="https://twitter.com/ndtv/status/1249354185302134785?s=20">Read Tweet</a> 
+      <div class="summary">
+        <span class="buttons">
+       
+          <!--<a href="#"><i class="fa fa-ellipsis-h"></i> More</a>-->
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 strip">
+       <img src="https://pbs.twimg.com/profile_images/971010414891978753/l3xRvU1M_400x400.jpg" alt="profile image" width="100px" />
+      <strong>The Wire</strong> <span class="light"> @thewire_in- <span class="time">7:58 PM · Apr 12, 2020</span></span><br>
+     “The guests, who were seen in photographs and video tightly packed with little regard for the deadly pandemic, were served biryani in Gubbi town, around 90 km from Bengaluru,” NDTV reported. <a href="https://thewire.in/government/karnataka-bjp-mla-masale-hjayaram-birthday-bash-lockdown">More...</a><br>
+       <a href="https://twitter.com/thewire_in/status/1249343682320318465?s=20">Read Tweet</a>
+      
+      <div class="summary">
+      
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 strip">
+      <img src="https://pbs.twimg.com/profile_images/1170222681553162240/9ZaLRf3r_400x400.jpg" alt="profile image" width="100px" />
+      <strong>The Quint</strong><span class="light">@TheQuint - <span class="time">7:02 PM · Apr 12, 2020</span></span><br>
+     Millions of labourers across the country are worried more about their livelihood, which is completely lost due the #coronavirus lockdown, reports @shadabmoizee.<a href="https://www.thequint.com/videos/news-videos/loss-of-livelihood-migrant-workers-walk-from-rajasthan-to-bihar">More..</a><br>
+       <a href="https://twitter.com/TheQuint/status/1249329439843815427?s=20">Read Tweet</a>
+      
+      <div class="summary">
+        <!--<a href="/summary"><i class="fa fa-ellipsis-h"></i> More</a>-->
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+
+
+.strip2{
+  border: 5px solid #C0C0C0;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+
+.strip1{
+  border: 8px solid #C0C0C0;
+  padding: 10px;
+  border-radius: 10px;
+  border-top: 1px solid silver;
+  border-top: 1px solid silver;
+  width: 100%;
+}
+
+
+
+	body{
+  margin-top: 10px;
+}
+
+.strip{
+  border: 5px solid #C0C0C0;
+  padding: 10px;
+  border-radius: 10px;
+  border-top: 1px solid silver;
+  border-top: 1px solid silver;
+  width: 700px;
+}
+
+.strip img{
+  float: left;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+.light{
+  color: silver;
+}
+
+.summary{
+  margin-left: 60px;
+  margin-top: 5px;
+}
+
+.buttons{
+  float: right;
+}
+
+.buttons a{
+  color: silver;
+}
+
+.buttons a:hover{
+  color: #428bca;
+  text-decoration: none;
+}
+
+.buttons i.fa{
+  margin-left: .5em;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.6.0/moment.min.js"></script>
